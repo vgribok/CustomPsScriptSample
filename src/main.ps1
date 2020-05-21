@@ -1,0 +1,1 @@
+Write-Host "Hello, World! User script executed at $(Get-Date)."
