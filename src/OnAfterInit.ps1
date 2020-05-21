@@ -13,4 +13,4 @@ users log in.
 
 #>
 
-Write-Host "Main scsript finished running at $(Get-Date)."
+Write-Host "Main script finished running at $(Get-Date)."
