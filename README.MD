@@ -1,3 +1,6 @@
+# Lab-Specific Branch
+This branch contains custom scripts for the lab covering modernization of a legacy ASP.NET Framework application to .NET Core.
+
 # Overview
 
 This is a special-purpose event handler script template.

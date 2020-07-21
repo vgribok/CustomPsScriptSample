@@ -13,3 +13,7 @@ distracting users. A few seconds is ideal.
 #>
 
 Write-Host "Windows user `"$($env:USERNAME)`" logged in at $(Get-Date)."
+
+Write-Information "Creating ASP.NET Membership SQL Server database"
+& $env:WINDIR\Microsoft.Net\Framework\v4.0.30319\aspnet_regsql.exe -S . -d Identity -A all -E
+Write-Information "Finished creating ASP.NET Membership database"
