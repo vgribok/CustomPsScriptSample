@@ -14,7 +14,7 @@ distracting users. A few seconds is ideal.
 [CmdletBinding()]
 param (
     [Parameter()] [String] $RdsInstanceName = "rds-sql-server",
-    [Parameter()] [String] $RdsSecretPrefix = "LocalAdminPassword-"
+    [Parameter()] [String] $RdsSecretPrefix = "RdsCredentials-"
 )
 
 Write-Host "Windows user `"$($env:USERNAME)`" logged in at $(Get-Date)."
