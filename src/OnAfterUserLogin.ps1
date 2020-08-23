@@ -11,9 +11,31 @@ This script needs to complete its run fast to avoid
 distracting users. A few seconds is ideal.
 
 #>
+[CmdletBinding()]
+param (
+    [Parameter()] [String] $RdsInstanceName = "rds-sql-server",
+    [Parameter()] [String] $RdsSecretPrefix = "LocalAdminPassword-"
+)
 
 Write-Host "Windows user `"$($env:USERNAME)`" logged in at $(Get-Date)."
 
-Write-Information "Creating ASP.NET Membership SQL Server database"
+Write-Host "Creating ASP.NET Membership SQL Server database locally"
 & $env:WINDIR\Microsoft.Net\Framework\v4.0.30319\aspnet_regsql.exe -S . -d Identity -A all -E
-Write-Information "Finished creating ASP.NET Membership database"
+
+Write-Host -NoNewline "Importing AWS PowerShell module.."
+Import-Module AWSPowerShell.NetCore
+Write-Host "Done"
+
+$rdsInstance = Get-RDSDBInstance $RdsInstanceName
+$rdsEndpoint = $rdsInstance.Endpoint.Address
+
+$rdsCredSecret = Get-SECSecretList | where { $_.Name.StartsWith($RdsSecretPrefix) }
+$rdsSecret = (Get-SECSecretValue LocalAdminPassword-QKkSPbZNORpf).SecretString | ConvertFrom-Json
+
+# $rdsEndpoint
+# $rdsInstance.MasterUsername
+# $rdsSecret.Password
+
+Write-Host "Initializing ASP.NET Membership database on RDS"
+& $env:WINDIR\Microsoft.Net\Framework\v4.0.30319\aspnet_regsql.exe -d Identity -S $rdsEndpoint -U $rdsInstance.MasterUsername -P $rdsSecret.Password -A all
+
