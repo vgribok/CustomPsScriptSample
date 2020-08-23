@@ -36,6 +36,9 @@ $rdsSecret = (Get-SECSecretValue $rdsCredSecret.Name).SecretString | ConvertFrom
 # $rdsInstance.MasterUsername
 # $rdsSecret.Password
 
+"Data Source=$rdsEndpoint; Initial Catalog=MusicStore; User Id=$($rdsInstance.MasterUsername); Password=$($rdsSecret.Password)" | Out-File C:\MusicStoreDbString.txt
+"Data Source=$rdsEndpoint; Initial Catalog=Identity; User Id=$($rdsInstance.MasterUsername); Password=$($rdsSecret.Password)" | Out-File C:\IdentityDbString.txt
+
 Write-Host "Initializing ASP.NET Membership database on RDS"
 & $env:WINDIR\Microsoft.Net\Framework\v4.0.30319\aspnet_regsql.exe -d Identity -S $rdsEndpoint -U $rdsInstance.MasterUsername -P $rdsSecret.Password -A all
 
