@@ -30,7 +30,7 @@ $rdsInstance = Get-RDSDBInstance $RdsInstanceName
 $rdsEndpoint = $rdsInstance.Endpoint.Address
 
 $rdsCredSecret = Get-SECSecretList | where { $_.Name.StartsWith($RdsSecretPrefix) }
-$rdsSecret = (Get-SECSecretValue LocalAdminPassword-QKkSPbZNORpf).SecretString | ConvertFrom-Json
+$rdsSecret = (Get-SECSecretValue $rdsCredSecret.Name).SecretString | ConvertFrom-Json
 
 # $rdsEndpoint
 # $rdsInstance.MasterUsername
