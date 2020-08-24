@@ -19,9 +19,6 @@ param (
 
 Write-Host "Windows user `"$($env:USERNAME)`" logged in at $(Get-Date)."
 
-Write-Host "Creating ASP.NET Membership SQL Server database locally"
-& $env:WINDIR\Microsoft.Net\Framework\v4.0.30319\aspnet_regsql.exe -S . -d Identity -A all -E
-
 Write-Host -NoNewline "Importing AWS PowerShell module.."
 Import-Module AWSPowerShell.NetCore
 Write-Host "Done"
@@ -38,7 +35,3 @@ $rdsSecret = (Get-SECSecretValue $rdsCredSecret.Name).SecretString | ConvertFrom
 
 "Data Source=$rdsEndpoint; Initial Catalog=MusicStore; User Id=$($rdsInstance.MasterUsername); Password=$($rdsSecret.Password)" | Out-File C:\MusicStoreDbString.txt
 "Data Source=$rdsEndpoint; Initial Catalog=Identity; User Id=$($rdsInstance.MasterUsername); Password=$($rdsSecret.Password)" | Out-File C:\IdentityDbString.txt
-
-Write-Host "Initializing ASP.NET Membership database on RDS"
-& $env:WINDIR\Microsoft.Net\Framework\v4.0.30319\aspnet_regsql.exe -d Identity -S $rdsEndpoint -U $rdsInstance.MasterUsername -P $rdsSecret.Password -A all
-
